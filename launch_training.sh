@@ -11,17 +11,17 @@
 #SBATCH -c 20
 #SBATCH -t 01:00:00
 #SBATCH --signal=B:USR1@120
-_JSON="/rds/user/mh2167/hpc-work/NA-MPNN/dfm_model.json"
+_JSON="/home/stu/clean/dfm_model.json"
 
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate NA-MPNN
 
 export WANDB_MODE=offline
-export WANDB_DIR=/rds/user/mh2167/hpc-work/NA-MPNN/logs/wandb
+export WANDB_DIR=/home/stu/clean/logs/wandb
 
 # Persist a single wandb run id across resubmits so all offline runs
 # stitch into one continuous run when later synced from a login node.
-WANDB_ID_FILE=/rds/user/mh2167/hpc-work/NA-MPNN/dfm_base/wandb_run.id
+WANDB_ID_FILE=/home/stu/clean/dfm_base/wandb_run.id
 mkdir -p "$(dirname "$WANDB_ID_FILE")"
 if [ ! -s "$WANDB_ID_FILE" ]; then
     python -c "import wandb; print(wandb.util.generate_id())" > "$WANDB_ID_FILE"
@@ -42,7 +42,7 @@ trap resubmit USR1
 echo "Starting job $SLURM_JOB_ID at $(date)"
 
 # Run in background so the trap can fire
-torchrun --nproc_per_node=4 /rds/user/mh2167/hpc-work/NA-MPNN/na_run.py "$_JSON" &
+torchrun --nproc_per_node=4 /home/stu/clean/na_run.py "$_JSON" &
 TRAIN_PID=$!
 wait $TRAIN_PID
 EXIT_CODE=$?

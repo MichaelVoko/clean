@@ -28,10 +28,10 @@
 "RANDOMIZE_NMR_MODEL" : 0,
 "CROP_LARGE_STRUCTURES" : 0,
 "MIN_OVERLAP_LENGTH": 5,
-"DF_PATH_TRAIN" : "/rds/user/mh2167/hpc-work/NA-MPNN/data/datasets/design_from_splits/design_train.csv",
-"DF_PATH_VALID" : "/rds/user/mh2167/hpc-work/NA-MPNN/data/datasets/design_from_splits/design_evaluation_valid.csv",
-"BASE_FOLDER" : "/home/mh2167/rds/hpc-work/NA-MPNN/dfm_base",
-"PREV_CHECKPOINT" : "/home/mh2167/rds/hpc-work/NA-MPNN/dfm_base/last.pt",
+"DF_PATH_TRAIN" : "/home/stu/clean/data/datasets/design_from_splits/design_train.csv",
+"DF_PATH_VALID" : "/home/stu/clean/data/datasets/design_from_splits/design_evaluation_valid.csv",
+"BASE_FOLDER" : "/home/stu/clean/dfm_base",
+"PREV_CHECKPOINT" : "/home/stu/clean/dfm_base/last.pt",
 "HIDDEN_DIM" : 128,
 "NUM_ENCODER_LAYERS" : 3,
 "NUM_DECODER_LAYERS" : 3,
@@ -56,5 +56,5 @@
 "MODE": "dfm",
 "DFM_T_BINS": 25,
 "WANDB_PROJECT": "Part III",
-"CHAIN_CLUSTER_LOOKUP_PATH": "/rds/user/mh2167/hpc-work/NA-MPNN/data/datasets/design_from_splits/chain_cluster_lookup.pkl"
+"CHAIN_CLUSTER_LOOKUP_PATH": "/home/stu/clean/data/datasets/design_from_splits/chain_cluster_lookup.pkl"
 }
