@@ -1,0 +1,15 @@
+# Interactive training
+srun -A LIO-SL3-GPU -p ampere --gres=gpu:4 -N 1 --mem=64g -c 12 --qos=INTR --time=00:30:00 bash /rds/user/mh2167/hpc-work/NA-MPNN/launch_training.sh
+
+# batch training
+sbatch /rds/user/mh2167/hpc-work/NA-MPNN/launch_training.sh
+
+
+# screen renaming
+screen -S 1000133.pts-112.login-p-4  -X sessionname wandb
+screen -r test_train   
+screen -X -S  2178690.test_train quit
+
+# wandb sync
+conda activate NA-MPNN
+for d in /rds/user/mh2167/hpc-work/NA-MPNN/logs/wandb/wandb/offline-run-*; do wandb sync "$d"; done

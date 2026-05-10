@@ -1,0 +1,11 @@
+*.pt
+*.pth
+*.ckpt
+__pycache__/
+*.pyc
+*.err
+*.out
+data/
+logs/
+train_log/
+out/

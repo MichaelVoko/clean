@@ -1,0 +1,13 @@
+arnie==0.2.7
+biotite==1.6.0
+ema_pytorch==0.7.9
+matplotlib==3.10.9
+Network==0.1
+networkx==3.6.1
+numpy==2.4.4
+openbabel==3.1.1.1
+pandas==3.0.2
+prody==2.6.1
+PyYAML==6.0.3
+scoring==0.0.9
+torch==2.5.1
