@@ -4,8 +4,8 @@ arnie==0.2.7
 ema_pytorch==0.7.9
 matplotlib
 networkx
-numpy==2.4.4
+numpy
 openbabel-wheel
-pandas==3.0.2
-PyYAML==6.0.3
+pandas
+PyYAML
 wandb

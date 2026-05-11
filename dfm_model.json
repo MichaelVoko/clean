@@ -55,6 +55,6 @@
 "METRICS_TO_COMPUTE": "basic", 
 "MODE": "dfm",
 "DFM_T_BINS": 25,
-"WANDB_PROJECT": "Part III",
+"WANDB_PROJECT": "dfm_training",
 "CHAIN_CLUSTER_LOOKUP_PATH": "/home/stu/clean/data/datasets/design_from_splits/chain_cluster_lookup.pkl"
 }
