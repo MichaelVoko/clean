@@ -1,12 +1,11 @@
 --extra-index-url https://download.pytorch.org/whl/cu121
 torch==2.5.1+cu121
 arnie==0.2.7
-biotite==1.6.0
 ema_pytorch==0.7.9
-matplotlib==3.10.9
-networkx==3.6.1
-numpy==2.4.4
+matplotlib
+networkx
+numpy
 openbabel-wheel
-pandas==3.0.2
-PyYAML==6.0.3
+pandas
+PyYAML
 wandb
