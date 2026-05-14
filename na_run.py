@@ -280,13 +280,17 @@ for e in range(100000):
         pdb_dataset,
         sampler=valid_sampler,
         num_workers=params["NUM_WORKERS"],
-        pin_memory=True)
+        pin_memory=True,
+        persistent_workers=params["NUM_WORKERS"] > 0,
+        prefetch_factor=4 if params["NUM_WORKERS"] > 0 else None)
 
     train_loader = torch.utils.data.DataLoader(
         pdb_dataset,
         sampler=train_sampler,
         num_workers=params["NUM_WORKERS"],
-        pin_memory=True)
+        pin_memory=True,
+        persistent_workers=params["NUM_WORKERS"] > 0,
+        prefetch_factor=4 if params["NUM_WORKERS"] > 0 else None)
 
     model.train() # training mode sets self.training = True for modules like dropout, which behave differently during training and evaluation.
     e = epoch + e

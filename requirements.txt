@@ -9,3 +9,4 @@ openbabel-wheel
 pandas
 PyYAML
 wandb
+prody

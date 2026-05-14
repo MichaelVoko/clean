@@ -13,3 +13,24 @@ screen -X -S  2178690.test_train quit
 # wandb sync
 conda activate NA-MPNN
 for d in /rds/user/mh2167/hpc-work/NA-MPNN/logs/wandb/wandb/offline-run-*; do wandb sync "$d"; done
+
+#tmux cmds
+
+Detach (leave running in background): Ctrl+B, then D
+Reattach: tmux attach -t train
+List sessions: tmux ls
+
+#conda activate
+source /workspace/miniconda3/etc/profile.d/conda.sh && conda activate NA-MPNN
+
+python3 na_run.py dfm_model.json
+
+torchrun --standalone --nproc_per_node=4 na_run.py dfm_model.json
+
+NCCL_P2P_DISABLE=1 torchrun --standalone --nproc_per_node=4 na_run.py dfm_model.json
+
+torchrun --standalone --nproc_per_node=4 --master_port=29501 na_run.py dfm_model.json
+
+#git config
+git config --global user.email "michaelhlordzi@outlook.com"
+git config --global user.name "MichaelVoko"
