@@ -1,0 +1,64 @@
+
+# Design Test Set- my model
+sbatch --array=0-49 --time=00:20:00 /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/rna_design_scripts/design_sequences.sh \
+    /rds/user/mh2167/hpc-work/NA-MPNN/data/datasets/design_from_splits/design_evaluation_test.csv \
+    /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/base_eval/design\
+    "na_mpnn" \
+    10 \
+    0.1 \
+    /rds/user/mh2167/hpc-work/NA-MPNN/full_output/s_99462.pt\
+    ar
+
+# OR their model
+sbatch --array=0-9 --time=00:20:00 \
+    /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/rna_design_scripts/design_sequences.sh \
+    /rds/user/mh2167/hpc-work/NA-MPNN/data/datasets/design_from_splits/design_evaluation_test.csv \
+    /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/first_eval/first_design \
+    na_mpnn \
+    10 \
+    0.1 \
+    /rds/user/mh2167/hpc-work/NA-MPNN/models/design_model/s_19137.pt\ar
+
+  # DFM model
+  sbatch --array=0-0 --time=00:30:00 /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/rna_design_scripts/design_sequences.sh \
+    /rds/user/mh2167/hpc-work/NA-MPNN/data/datasets/design_from_splits/design_evaluation_test.csv \
+    /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/dfm_eval/design\
+    "na_mpnn" \
+    10 \
+    0.1 \
+    /home/mh2167/rds/hpc-work/NA-MPNN/dfm_base/last.pt\
+    0.1\
+    dfm
+
+#Natives
+sh /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/rna_design_scripts/process_natives.sh \
+    /rds/user/mh2167/hpc-work/NA-MPNN/data/datasets/design_from_splits/design_evaluation_test.csv \
+    /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/natives
+  
+#Process
+sbatch --array=0-0 --time=00:30:00 \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/rna_design_scripts/process_designs.sh \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/first_eval/first_design \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/first_eval/first_design_processed\
+   --skip_alphafold3
+
+srun -A LIO-SL3-GPU -p ampere -N 1 --gres=gpu:1 --mem=32g --time=00:15:00 \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/rna_design_scripts/process_designs.sh \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/first_eval/first_design \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/first_eval/first_design_processed\
+   --skip_alphafold3
+
+# My model
+sbatch --array=0-9 --time=01:00:00 \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/rna_design_scripts/process_designs.sh \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/base_eval/design \
+  /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/base_eval/design_processed 
+
+ #Score 
+sbatch --array=0-19 --time=00:10:00 /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/rna_design_scripts/score_designs.sh \
+    /home/mh2167/rds/hpc-work/NA-MPNN/evaluation/base_eval/design_processed_rna_monomer \
+    /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/first_eval/first_natives/ \
+    /rds/user/mh2167/hpc-work/NA-MPNN/evaluation/base_eval/scores_rna_monomer
+  
+
+

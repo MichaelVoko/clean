@@ -1,0 +1,23 @@
+cd /home/mh2167/rds/hpc-work/NA-MPNN
+export SWEEP_DIR=$PWD/evaluation/sweeps/ar_sweep CKPT_DIR=$PWD/ar_model MODEL_MODE=ar
+sbatch --export=ALL --array=0-199 --time=01:00:00 evaluation/sweeps/scripts/run_checkpoint_sweep.sh
+
+
+#######
+cd /rds/user/mh2167/hpc-work/NA-MPNN
+
+export SWEEP_DIR=$PWD/evaluation/sweeps/dt_sweep_s11270
+export CKPT=$PWD/dfm_base/s_11270.pt
+export DT_VALUES="1.0 0.5 0.33 0.2 0.1"
+
+mkdir -p $SWEEP_DIR
+echo "dt,context,structure,sample,recovery" > "$SWEEP_DIR/recovery_samples.csv"
+
+sbatch --export=ALL --array=0-44 --ntasks=1 --cpus-per-task=1 --time=01:00:00 -p icelake --mem=32g --job-name=dt_11270 evaluation/sweeps/scripts/run_dt_sweep.sh
+
+
+#########
+export SWEEP_DIR=$PWD/evaluation/sweeps/protein_dt_sweep
+export CKPT=$PWD/dfm_base/s_54019.pt
+export DT_VALUES="1.0,0.5,0.33, 0.2 0.1"
+sbatch --array=0-44 evaluation/sweeps/scripts/run_protein_dt_sweep.sh
