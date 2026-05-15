@@ -1,6 +1,7 @@
 *.pt
 *.pth
 *.ckpt
+wandb/
 __pycache__/
 *.pyc
 *.err
