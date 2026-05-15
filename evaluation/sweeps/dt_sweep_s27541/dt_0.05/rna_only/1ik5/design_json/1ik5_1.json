@@ -1,0 +1,11 @@
+{
+    "input_structure_name": "1ik5",
+    "input_structure_path": "/workspace/NA-MPNN/evaluation/sweeps/dt_sweep_s27541/dt_0.05/rna_only/1ik5/1ik5.cif",
+    "design_id": "1",
+    "name": "1ik5_1",
+    "design_sequence": "huduuuuhhhbhh/hhduuuuddhbhu",
+    "tool_reported_sequence_recovery": 0.4167,
+    "design_method": "na_mpnn",
+    "model_weights_path": "/workspace/NA-MPNN/dfm_model/s_27541.pt",
+    "original_input_structure_path": "/workspace/NA-MPNN/data/datasets/design_from_splits/structures/ik/1ik5.cif.gz"
+}

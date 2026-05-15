@@ -22,7 +22,7 @@
 #   export DT_VALUES="0.05 0.025"
 #   sbatch --array=0-99 evaluation/sweeps/scripts/run_dt_sweep.sh
 
-REPO_ROOT="/home/mh2167/rds/hpc-work/NA-MPNN"
+REPO_ROOT="${REPO_ROOT:-/home/mh2167/rds/hpc-work/NA-MPNN}"
 CSV_DIR="${CSV_DIR:-${REPO_ROOT}/evaluation/sweeps/scripts/valid_datasets}"
 NA_EVAL_UTILS="${NA_EVAL_UTILS:-${REPO_ROOT}/evaluation/na_eval_utils.py}"
 
@@ -31,8 +31,8 @@ NA_EVAL_UTILS="${NA_EVAL_UTILS:-${REPO_ROOT}/evaluation/na_eval_utils.py}"
 [[ -z "$DT_VALUES" ]] && { echo "Error: DT_VALUES not set" >&2; exit 1; }
 [[ ! -f "$CKPT"    ]] && { echo "Error: checkpoint not found: $CKPT" >&2; exit 1; }
 
-source /home/mh2167/miniconda3/etc/profile.d/conda.sh
-conda activate NA-MPNN 2>/dev/null
+CONDA_INIT="${CONDA_INIT:-/home/mh2167/miniconda3/etc/profile.d/conda.sh}"
+[[ -f "$CONDA_INIT" ]] && source "$CONDA_INIT" && conda activate NA-MPNN 2>/dev/null
 PYTHON_BIN="${NA_EVAL_PYTHON_BIN:-$(command -v python)}"
 
 NUM_SAMPLES=${NUM_SAMPLES:-4}

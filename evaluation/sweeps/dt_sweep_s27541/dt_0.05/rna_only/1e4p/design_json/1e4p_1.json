@@ -1,0 +1,11 @@
+{
+    "input_structure_name": "1e4p",
+    "input_structure_path": "/workspace/NA-MPNN/evaluation/sweeps/dt_sweep_s27541/dt_0.05/rna_only/1e4p/1e4p.cif",
+    "design_id": "1",
+    "name": "1e4p_1",
+    "design_sequence": "hdhdhbhhhdhbbbhdddhbhdhd",
+    "tool_reported_sequence_recovery": 0.8261,
+    "design_method": "na_mpnn",
+    "model_weights_path": "/workspace/NA-MPNN/dfm_model/s_27541.pt",
+    "original_input_structure_path": "/workspace/NA-MPNN/data/datasets/design_from_splits/structures/e4/1e4p.cif.gz"
+}

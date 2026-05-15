@@ -1,0 +1,4 @@
+>1e4p, T=0.1, seed=63809, num_res=23, batch_size=1, number_of_batches=1, model_path=/workspace/NA-MPNN/dfm_model/s_27541.pt
+huhdhbbhbdhbbbhuddhbhdhd
+>1e4p, id=1, T=0.1, seed=63809, overall_confidence=0.7744, seq_rec=0.8261
+hdhdhbhhhdhbbbhdddhbhdhd

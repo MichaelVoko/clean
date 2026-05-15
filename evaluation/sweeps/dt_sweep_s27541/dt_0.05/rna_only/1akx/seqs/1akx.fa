@@ -1,0 +1,10 @@
+>1akx, T=0.1, seed=5487, num_res=29, batch_size=4, number_of_batches=1, model_path=/workspace/NA-MPNN/dfm_model/s_27541.pt
+hhddbhbuuhbhdduhhhbhdududuhhdd/R
+>1akx, id=1, T=0.1, seed=5487, overall_confidence=0.7663, seq_rec=0.4828
+hhhhbhhhbhhhdddubbhhdddddudddd/R
+>1akx, id=2, T=0.1, seed=5487, overall_confidence=0.7382, seq_rec=0.5517
+hhhhbhhubhhhdduubbhhdddddudddd/R
+>1akx, id=3, T=0.1, seed=5487, overall_confidence=0.7725, seq_rec=0.5172
+hhhhbhhhuhhhddduubhhdddddudddd/R
+>1akx, id=4, T=0.1, seed=5487, overall_confidence=0.7683, seq_rec=0.5517
+hhhhbhhhuhhhdduuubhhdddddudddd/R
