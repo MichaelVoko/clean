@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 
-REPO_ROOT = Path("/home/mh2167/rds/hpc-work/NA-MPNN")
+REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_DIR = REPO_ROOT / "dfm_base"
 DEFAULT_OUT = REPO_ROOT / "evaluation/sweeps/dfm_sweep/selected_steps.txt"
 

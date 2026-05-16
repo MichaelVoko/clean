@@ -34,7 +34,7 @@
 # CSV_DIR defaults to evaluation/sweeps/scripts/valid_datasets (both modes use the same validation splits).
 # To resume a partial run, just re-submit — completed structures are skipped automatically.
 
-REPO_ROOT="/home/mh2167/rds/hpc-work/NA-MPNN"
+REPO_ROOT="${REPO_ROOT:-/home/voko/Documents/NA-MPNN}"
 
 if [[ -z "$SWEEP_DIR" ]]; then
     echo "Error: SWEEP_DIR must be set (e.g. \$PWD/evaluation/sweeps/dfm_sweep or \$PWD/evaluation/sweeps/ar_sweep)" >&2
@@ -48,7 +48,7 @@ CSV_DIR="${CSV_DIR:-${REPO_ROOT}/evaluation/sweeps/scripts/valid_datasets}"
 NA_EVAL_UTILS="${NA_EVAL_UTILS:-${REPO_ROOT}/evaluation/na_eval_utils.py}"
 STEPS_FILE="${SWEEP_DIR}/selected_steps.txt"
 
-CONDA_ROOT="${CONDA_ROOT:-/home/mh2167/miniconda3}"
+CONDA_ROOT="${CONDA_ROOT:-/home/voko/miniconda3}"
 CONDA_SH="${CONDA_ROOT}/etc/profile.d/conda.sh"
 CONDA_ENV_NAME="${CONDA_ENV_NAME:-NA-MPNN}"
 if [ -f "$CONDA_SH" ]; then

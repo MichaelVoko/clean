@@ -26,7 +26,7 @@
 #   echo "8 16 32 64 128" > $SWEEP_DIR/selected_ks.txt
 #   sbatch --array=0-39 evaluation/sweeps/scripts/run_eds_sweep.sh
 
-REPO_ROOT="/home/mh2167/rds/hpc-work/NA-MPNN"
+REPO_ROOT="${REPO_ROOT:-/home/voko/Documents/NA-MPNN}"
 
 if [[ -z "$SWEEP_DIR" ]]; then echo "Error: SWEEP_DIR must be set" >&2; exit 1; fi
 if [[ -z "$CKPT_PATH" ]]; then echo "Error: CKPT_PATH must be set" >&2; exit 1; fi
@@ -36,7 +36,7 @@ CSV_DIR="${CSV_DIR:-${REPO_ROOT}/evaluation/sweeps/scripts/valid_datasets}"
 NA_EVAL_UTILS="${NA_EVAL_UTILS:-${REPO_ROOT}/evaluation/na_eval_utils.py}"
 KS_FILE="${SWEEP_DIR}/selected_ks.txt"
 
-CONDA_ROOT="${CONDA_ROOT:-/home/mh2167/miniconda3}"
+CONDA_ROOT="${CONDA_ROOT:-/home/voko/miniconda3}"
 CONDA_SH="${CONDA_ROOT}/etc/profile.d/conda.sh"
 CONDA_ENV_NAME="${CONDA_ENV_NAME:-NA-MPNN}"
 if [ -f "$CONDA_SH" ]; then

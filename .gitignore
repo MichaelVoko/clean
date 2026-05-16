@@ -10,3 +10,4 @@ data/
 logs/
 train_log/
 out/
+evaluation/sweeps/*/

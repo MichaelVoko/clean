@@ -4,13 +4,13 @@ import torch.nn.functional as F
 _SPECIAL_TOKENS = ["UNK", "DX", "RX", "MAS", "PAD"]
 
 
-def _forward_probs(model, feat, S, t_value, bias, temperature, eps):
-    """Forward pass → cleaned, bias/temperature-adjusted probability distribution."""
+def _forward_probs(model, feat, S, t_value, bias, eps):
+    """Forward pass → bias-adjusted probability distribution at T=1."""
     B = S.shape[0]
     device = S.device
     t_tensor = torch.full((B, 1), t_value, device=device, dtype=torch.float32)
     log_probs, _ = model.forward_dfm({**feat, "S": S}, t_tensor)
-    probs = F.softmax((log_probs + bias) / temperature, dim=-1)
+    probs = F.softmax(log_probs + bias, dim=-1)
     for tok in _SPECIAL_TOKENS:
         probs[..., model.restype_to_int[tok]] = 0
     probs = probs / probs.sum(dim=-1, keepdim=True).clamp_min(eps)
@@ -36,7 +36,7 @@ class EulerSampler:
 
     def step(self, model, feat, S, t_value, bias, temperature, eps=1e-3):
         h = min(self.dt, 1.0 - t_value)
-        log_probs, probs = _forward_probs(model, feat, S, t_value, bias, temperature, eps)
+        log_probs, probs = _forward_probs(model, feat, S, t_value, bias, eps)
         one_hot_S = F.one_hot(S, num_classes=probs.size(-1)).float()
         u = _velocity(probs, one_hot_S, t_value, eps)
         p_next = _apply_update(one_hot_S, u, h, eps)
@@ -78,7 +78,7 @@ class EDSSampler:
         t_lo = self.t_grid[self._k]
         t_hi = self.t_grid[self._k + 1]
         h = max(t_hi - t_lo, eps)
-        log_probs, probs = _forward_probs(model, feat, S, t_lo, bias, temperature, eps)
+        log_probs, probs = _forward_probs(model, feat, S, t_lo, bias, eps)
         one_hot_S = F.one_hot(S, num_classes=probs.size(-1)).float()
         u = _velocity(probs, one_hot_S, t_lo, eps)
         p_next = _apply_update(one_hot_S, u, h, eps)

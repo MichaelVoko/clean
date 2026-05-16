@@ -13,7 +13,7 @@ from statistics import mean
 
 import pandas as pd
 
-REPO_ROOT = Path("/home/mh2167/rds/hpc-work/NA-MPNN")
+REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SWEEP = REPO_ROOT / "evaluation/sweeps/dfm_sweep"
 
 CONTEXTS = ("rna_only", "rna_with_protein", "dna_only", "dna_with_protein")

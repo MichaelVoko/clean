@@ -1,4 +1,0 @@
->1f7f, T=0.1, seed=9832, num_res=26, batch_size=1, number_of_batches=1, model_path=/workspace/NA-MPNN/dfm_model/s_27541.pt
-hhbbhuddhhuduudhhbddhhduudd
->1f7f, id=1, T=0.1, seed=9832, overall_confidence=0.7164, seq_rec=0.3846
-hhdddbhdhbhdhubbhdudhdhhhdd
