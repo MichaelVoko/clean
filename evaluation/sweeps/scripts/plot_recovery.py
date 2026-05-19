@@ -67,7 +67,7 @@ def main() -> None:
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(args.out, dpi=150)
-    print(f"Wrote plot -> {args.out.relative_to(REPO_ROOT)}")
+    print(f"Wrote plot -> {args.out.resolve().relative_to(REPO_ROOT)}")
     if best is not None:
         print(f"Best checkpoint by total recovery: s_{int(best['step'])}.pt  (total={best['total']:.4f})")
 

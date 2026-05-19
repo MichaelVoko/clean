@@ -34,3 +34,13 @@ torchrun --standalone --nproc_per_node=4 --master_port=29501 na_run.py dfm_model
 #git config
 git config --global user.email "michaelhlordzi@outlook.com"
 git config --global user.name "MichaelVoko"
+
+
+rsync -avzP mh2167@login.hpc.cam.ac.uk:/home/mh2167/rds/hpc-work/NA-MPNN/dfm_model/ /home/voko/Documents/NA-MPNN/dfm_model/
+
+chpt sweep ################
+SWEEP_DIR=$PWD/evaluation/sweeps/ckpt_sweep \
+CKPT_DIR=$PWD/dfm_model \
+TEMPERATURE=1.0 \
+NUM_JOBS=1 SLURM_ARRAY_TASK_COUNT=1 SLURM_ARRAY_TASK_ID=0 \
+bash evaluation/sweeps/scripts/run_checkpoint_sweep.sh

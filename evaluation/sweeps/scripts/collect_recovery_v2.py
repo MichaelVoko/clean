@@ -30,7 +30,8 @@ def main() -> None:
     if not samples_csv.exists():
         raise SystemExit(f"No recovery_samples.csv at {samples_csv}")
 
-    df = pd.read_csv(samples_csv)
+    df = pd.read_csv(samples_csv, header=None,
+                     names=["step", "context", "structure", "sample", "recovery"])
 
     done_steps: set = set()
     existing_rows: list = []
