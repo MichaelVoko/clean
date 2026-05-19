@@ -135,12 +135,6 @@ model.to(device)
 
 ema = EMA(model, beta=params.get("EMA_DECAY", 0.9999))
 
-if is_distributed:
-    model = DDP(model, device_ids=[local_rank], output_device=local_rank, find_unused_parameters=False)
-
-if not is_distributed or global_rank == 0:
-    wandb.watch(model, log="all", log_freq=100)
-
 if params["PREV_CHECKPOINT"]:
     if not os.path.exists(params["PREV_CHECKPOINT"]):
         print(f"Checkpoint not found at {params['PREV_CHECKPOINT']}, starting from scratch.")
@@ -149,21 +143,26 @@ if params["PREV_CHECKPOINT"]:
         save_step = 0
         params["PREV_CHECKPOINT"] = []
     else:
-        checkpoint = torch.load(params["PREV_CHECKPOINT"])
-        total_step = checkpoint['step'] # write total_step from the checkpoint
+        checkpoint = torch.load(params["PREV_CHECKPOINT"], map_location=device)
+        total_step = checkpoint['step']
         save_step = checkpoint['save_step']
-        epoch = checkpoint['epoch'] # write epoch from the checkpoint
+        epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['model_state_dict'])
         if 'ema_state_dict' in checkpoint:
             ema.load_state_dict(checkpoint['ema_state_dict'])
         else:
-            # Old checkpoint without EMA: sync EMA from the freshly loaded model weights.
             ema.copy_params_from_model_to_ema()
         print(f"Starting from step {total_step}")
 else:
     total_step = 0
     epoch = 0
     save_step = 0
+
+if is_distributed:
+    model = DDP(model, device_ids=[local_rank], output_device=local_rank, find_unused_parameters=False)
+
+if not is_distributed or global_rank == 0:
+    wandb.watch(model, log="all", log_freq=100)
 
 
 optimizer = get_std_opt(model.parameters(), params["HIDDEN_DIM"], total_step)
@@ -280,13 +279,17 @@ for e in range(100000):
         pdb_dataset,
         sampler=valid_sampler,
         num_workers=params["NUM_WORKERS"],
-        pin_memory=True)
+        pin_memory=True,
+        persistent_workers=params["NUM_WORKERS"] > 0,
+        prefetch_factor=4 if params["NUM_WORKERS"] > 0 else None)
 
     train_loader = torch.utils.data.DataLoader(
         pdb_dataset,
         sampler=train_sampler,
         num_workers=params["NUM_WORKERS"],
-        pin_memory=True)
+        pin_memory=True,
+        persistent_workers=params["NUM_WORKERS"] > 0,
+        prefetch_factor=4 if params["NUM_WORKERS"] > 0 else None)
 
     model.train() # training mode sets self.training = True for modules like dropout, which behave differently during training and evaluation.
     e = epoch + e
@@ -725,21 +728,22 @@ for e in range(100000):
 
         _last_pt = params["BASE_FOLDER"] + 'last.pt'
         _last_pt_tmp = _last_pt + '.tmp'
+        _model_sd = model.module.state_dict() if is_distributed else model.state_dict()
         torch.save({'epoch': e+1,
                     'step': total_step,
                     'save_step': save_step,
-                    'model_state_dict': model.state_dict(),
+                    'model_state_dict': _model_sd,
                     'optimizer_state_dict': optimizer.optimizer.state_dict(),
                     'ema_state_dict': ema.state_dict(),
                     }, _last_pt_tmp)
         os.replace(_last_pt_tmp, _last_pt)  # atomic on POSIX
-        
+
         if total_step > save_step + params["SAVE_EVERY_N_STEPS"]:
             save_step += params["SAVE_EVERY_N_STEPS"]
             torch.save({'epoch': e+1,
                         'step': total_step,
                         'save_step': save_step,
-                        'model_state_dict': model.state_dict(),
+                        'model_state_dict': _model_sd,
                         'optimizer_state_dict': optimizer.optimizer.state_dict(),
                         'ema_state_dict': ema.state_dict(),
                         }, params["BASE_FOLDER"]+f's_{total_step}.pt')

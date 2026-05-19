@@ -9,3 +9,5 @@ data/
 logs/
 train_log/
 out/
+wandb/
+dfm/wandb_run_id.txt
